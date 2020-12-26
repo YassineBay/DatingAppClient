@@ -14,17 +14,31 @@ import { HomeComponent } from "./home/home.component";
 import { RegisterComponent } from "./register/register.component";
 import { AuthService } from "./services/auth.service";
 import { AlertifyService } from "./services/alertify.service";
+import { MemberListComponent } from "./member-list/member-list.component";
+import { ListsComponent } from "./lists/lists.component";
+import { MessagesComponent } from "./messages/messages.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { AuthGuard } from "./guards/auth.guard";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent],
+  declarations: [
+    AppComponent,
+    NavComponent,
+    HomeComponent,
+    RegisterComponent,
+    MemberListComponent,
+    ListsComponent,
+    MessagesComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     BsDropdownModule.forRoot(),
     FormsModule,
     JwtModule.forRoot({
@@ -33,8 +47,9 @@ export function tokenGetter() {
         whitelistedDomains: ["https://localhost:44344"],
       },
     }),
+    AppRoutingModule,
   ],
-  providers: [AuthService, AlertifyService],
+  providers: [AuthService, AlertifyService, AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

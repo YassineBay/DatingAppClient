@@ -1,20 +1,20 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Date Me</a>
+        <a class="navbar-brand" [routerLink]="['/home']">Date Me</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="loggedIn()">
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Matches</a>
+                <li class="nav-item " routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/members']">Matches</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Lists</a>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/lists']">Lists</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Messages</a>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/messages']">Messages</a>
                 </li>
             </ul>
             <form *ngIf="!loggedIn()" #loginForm="ngForm" class="d-flex ml-auto" (ngSubmit)="login()">
@@ -22,11 +22,11 @@
                     name="username" [(ngModel)]="model.username">
                 <input type="password" #password="ngModel" placeholder="Password" class="form-control mr-3"
                     name="password" required [(ngModel)]="model.password">
-                <button type="submit" [disabled]="!loginForm.valid" class="btn btn-outline-success">SignIn</button>
+                <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">SignIn</button>
             </form>
-            <ul *ngIf="loggedIn()" class="navbar-nav d-flex ml-auto">
+            <ul *ngIf="loggedIn()" class="navbar-nav d-flex ml-auto" style="cursor: pointer;">
                 <li class="nav-item dropdown" dropdown>
-                    <a class="nav-link dropdown-toggle" href="#" dropdownToggle>
+                    <a class="nav-link dropdown-toggle" dropdownToggle>
                         Welcome {{this.authService.decodedToken.unique_name}}
                     </a>
                     <ul class="dropdown-menu" *dropdownMenu>
