@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="loggedIn()">
                 <li class="nav-item ">
                     <a class="nav-link" href="#">Matches</a>
                 </li>
@@ -25,13 +25,11 @@
                 <button type="submit" [disabled]="!loginForm.valid" class="btn btn-outline-success">SignIn</button>
             </form>
             <ul *ngIf="loggedIn()" class="navbar-nav d-flex ml-auto">
-                <li class="nav-item"><a (click)="logout()" class="nav-link">Logout</a></li>
-                <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Welcome User
+                <li class="nav-item dropdown" dropdown>
+                    <a class="nav-link dropdown-toggle" href="#" dropdownToggle>
+                        Welcome {{this.authService.decodedToken.unique_name}}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu" *dropdownMenu>
                         <li><a class="dropdown-item" href="#"> <i class="fa fa-user"></i> Edit Profile</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>

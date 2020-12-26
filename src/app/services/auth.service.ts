@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
 } from "@angular/common/http";
 import { map, catchError } from "rxjs/operators";
-import { Observable, of, throwError } from "rxjs";
+import { throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -13,8 +14,10 @@ import { Observable, of, throwError } from "rxjs";
 export class AuthService {
   baseUrl = "https://localhost:44344/api/Auth/";
   userToken: any;
+  decodedToken: any;
+  helper = new JwtHelperService();
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, public jwtHelper: JwtHelperService) {}
 
   login(model: any) {
     return this._http
@@ -24,6 +27,7 @@ export class AuthService {
           // We are mapping this method because we need to add the token to localstorage
           if (res.tokenString) {
             localStorage.setItem("token", res.tokenString);
+            this.decodedToken = this.helper.decodeToken(res.tokenString);
             this.userToken = res.tokenString;
           }
         }),
@@ -37,6 +41,10 @@ export class AuthService {
         headers: this.requestOptions(),
       })
       .pipe(catchError(this.HandlerError));
+  }
+
+  loggedIn() {
+    return !this.jwtHelper.isTokenExpired(); // true or false // localstorage.getItem("token")
   }
 
   private requestOptions() {
